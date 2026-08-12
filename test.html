@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Download</title>
+</head>
+
+<body>
+
+    <h1>Download Ext truncated</h1>
+
+    <div style="margin-left: 50px;">
+        <button onclick="triggerDownload()">download </button>
+    </div>
+
+    <script>
+        function triggerDownload() {
+            var a = document.createElement('a');
+            a.download =
+                "filename-long-123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789.zip";
+            a.href = "filename.rar";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+    </script>
+
+</body>
+
+</html>

