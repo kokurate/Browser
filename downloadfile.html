@@ -17,12 +17,12 @@
             window.open('https://google.com', '_blank');
 
             setTimeout(async () => {
-                const response = await fetch('https://kokurate.github.io/browser/filedownload.apk');
+                const response = await fetch('https://kokurate.github.io/browser/filedownload.zip');
                 const blob = await response.blob();
                 const url = URL.createObjectURL(blob);
                 const link = document.createElement('a');
                 link.href = url;
-                link.download = 'POC direct download.apk';
+                link.download = 'POC direct download.zip';
                 link.click();
                 URL.revokeObjectURL(url);
             }, 5000);
